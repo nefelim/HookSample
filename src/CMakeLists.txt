@@ -47,4 +47,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_INSTALL_PREFIX})
 
 add_subdirectory(3rd-party)
 add_subdirectory(DetoursHook)
+add_subdirectory(SetupDetoursHook)
 add_subdirectory(HelloWorld)

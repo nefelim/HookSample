@@ -1,12 +1,10 @@
 #pragma once
-#include <cassert>
 #include <string>
+#include <iostream>
 
 #define CINTERFACE
 #include <ole2.h>
 #include <tchar.h>
 #include <windows.h>
 
-#include <detours.h>
-#include <plog/Log.h>
-#include <exceptxx/Win32Exception.h>
+#include "DetoursProcessor.h"
