@@ -30,8 +30,8 @@ extern "C"
 __declspec(dllexport)
 BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, PVOID /*lpReserved*/)
 {
-    plog::init(plog::verbose, "DetoursHook.log");
-    DetoursProcessor processor(hModule);
+    plog::init(plog::verbose, "c:\\DetoursHook.log");
+    DetoursProcessor processor;
     if (processor.IsHelperProcess())
     {
         LOGV << "IsHelperProcess is TRUE";

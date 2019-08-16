@@ -15,10 +15,5 @@ set_target_properties(DetoursHook PROPERTIES COMPILE_FLAGS "/Yupch.h")
 set_source_files_properties(pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h")
 
 target_link_libraries(DetoursHook PRIVATE detours_static plog::plog exceptxx)
-TARGET_COMPILE_DEFINITIONS(DetoursHook PUBLIC ${DETOURS_COMPILE_DEFINITIONS})
-TARGET_COMPILE_OPTIONS(DetoursHook PUBLIC ${DETOURS_COMPILE_OPTIONS})
-target_include_directories(DetoursHook 
-    INTERFACE 
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-)
+target_compile_definitions(DetoursHook PUBLIC ${DETOURS_COMPILE_DEFINITIONS})
+target_compile_options(DetoursHook PUBLIC ${DETOURS_COMPILE_OPTIONS})

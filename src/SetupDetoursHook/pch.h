@@ -6,5 +6,3 @@
 #include <ole2.h>
 #include <tchar.h>
 #include <windows.h>
-
-#include "DetoursProcessor.h"
