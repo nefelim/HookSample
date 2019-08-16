@@ -7,4 +7,6 @@
 [submodule "src/3rd-party/exceptxx"]
 	path = src/3rd-party/exceptxx
 	url = https://github.com/SergiusTheBest/exceptxx
-
+[submodule "src/3rd-party/mhook"]
+	path = src/3rd-party/mhook
+	url = https://github.com/apriorit/mhook
