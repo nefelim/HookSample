@@ -3,7 +3,7 @@
 
 int main()
 {
-    auto pi = CreateProcessWithDll(_T("HelloWorld.exe"), "DetoursHook.dll");
+    auto pi = CreateProcessWithDll(_T("HelloWorld.exe"), "MHookHook.dll"/*"DetoursHook.dll"*/);
     DWORD error = ::ResumeThread(pi.hThread);
     error = ::WaitForSingleObject(pi.hProcess, INFINITE);
 }

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "DetoursProcessor.h"
+#include "MHookProcessor.h"
 
 extern "C" 
 {
@@ -17,7 +17,7 @@ extern "C"
         LPOVERLAPPED lpOverlapped)
     {
         HANDLE hCout = ::GetStdHandle(STD_OUTPUT_HANDLE);
-        std::string str = "Hello Detours Hook!";
+        std::string str = "Hello MHook Hook!";
         if (hFile == hCout)
         {
             lpBuffer = &str[0];
@@ -30,8 +30,8 @@ extern "C"
 __declspec(dllexport)
 BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, PVOID /*lpReserved*/)
 {
-    plog::init(plog::verbose, "c:\\DetoursHook.log");
-    DetoursProcessor processor;
+    plog::init(plog::verbose, "c:\\MHookHook.log");
+    MHookProcessor processor;
     if (processor.NeedSkip())
     {
         LOGV << "Skip process DllMain";

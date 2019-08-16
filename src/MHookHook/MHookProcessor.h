@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 
-class DetoursProcessor
+class MHookProcessor
 {
 public:
     static bool NeedSkip();
@@ -11,6 +11,6 @@ private:
     void AttachHooks();
     void DetachHooks();
 private:
-    using FunctionMapT = std::map<void*, void**>;
+    using FunctionMapT = std::vector<HOOK_INFO>;
     FunctionMapT m_functionMap;
 };

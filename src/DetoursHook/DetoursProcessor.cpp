@@ -2,7 +2,7 @@
 #include "DetoursProcessor.h"
 #include "DetoursTransaction.h"
 
-bool DetoursProcessor::IsHelperProcess()
+bool DetoursProcessor::NeedSkip()
 {
     return ::DetourIsHelperProcess();
 }
@@ -19,18 +19,18 @@ void DetoursProcessor::ProcessAll(DWORD dwReason)
         case DLL_PROCESS_ATTACH: 
         {
             THROW_LAST_WIN32_IF(!::DetourRestoreAfterWith());
-            AttachDetours();
+            AttachHooks();
         }
         break;
         case DLL_PROCESS_DETACH:
         {
-            DetachDetours();
+            DetachHooks();
         }
         break;
     }
 }
 
-void DetoursProcessor::AttachDetours()
+void DetoursProcessor::AttachHooks()
 {
     DetoursTransaction transaction;
     LONG error = NO_ERROR;
@@ -41,7 +41,7 @@ void DetoursProcessor::AttachDetours()
     }
 }
 
-void DetoursProcessor::DetachDetours()
+void DetoursProcessor::DetachHooks()
 {
     DetoursTransaction transaction;
     LONG error = NO_ERROR;

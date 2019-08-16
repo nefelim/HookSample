@@ -15,5 +15,3 @@ set_target_properties(DetoursHook PROPERTIES COMPILE_FLAGS "/Yupch.h")
 set_source_files_properties(pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h")
 
 target_link_libraries(DetoursHook PRIVATE detours_static plog::plog exceptxx)
-target_compile_definitions(DetoursHook PUBLIC ${DETOURS_COMPILE_DEFINITIONS})
-target_compile_options(DetoursHook PUBLIC ${DETOURS_COMPILE_OPTIONS})
