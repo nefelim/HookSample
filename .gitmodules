@@ -1,12 +1,15 @@
+[submodule "plog"]
+	path = src/3rd-party/plog
+	url = https://github.com/SergiusTheBest/plog.git
+[submodule "exceptxx"]
+	path = src/3rd-party/exceptxx
+	url = https://github.com/SergiusTheBest/exceptxx
 [submodule "Detours"]
 	path = src/3rd-party/Detours
 	url = https://github.com/LonghronShen/Detours
-[submodule "src/3rd-party/plog"]
-	path = src/3rd-party/plog
-	url = https://github.com/SergiusTheBest/plog.git
-[submodule "src/3rd-party/exceptxx"]
-	path = src/3rd-party/exceptxx
-	url = https://github.com/SergiusTheBest/exceptxx
-[submodule "src/3rd-party/mhook"]
+[submodule "mhook"]
 	path = src/3rd-party/mhook
-	url = https://github.com/apriorit/mhook
+	url = https://github.com/apriorit/mhook	
+[submodule "Deviare-InProc"]
+    path = src/3rd-party/Deviare/Deviare-InProc
+    url = https://github.com/nektra/Deviare-InProc
