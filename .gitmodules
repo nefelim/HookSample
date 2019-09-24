@@ -12,4 +12,4 @@
 	url = https://github.com/apriorit/mhook	
 [submodule "Deviare-InProc"]
     path = src/3rd-party/Deviare/Deviare-InProc
-    url = https://github.com/nektra/Deviare-InProc
+    url = https://github.com/nefelim/Deviare-InProc
