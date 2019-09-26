@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "DeviareProcessor.h"
-//#include <NktHookLib.h>
 
 bool DeviareProcessor::NeedSkip()
 {
@@ -9,7 +8,7 @@ bool DeviareProcessor::NeedSkip()
 
 void DeviareProcessor::Override(void **origFn, void* trapFn)
 {
-    m_functionMap[trapFn] = origFn;
+    m_hookInfos.emplace_back(CNktHookLib::HOOK_INFO{ m_hookInfos.size(), origFn, trapFn, origFn });
 }
 
 void DeviareProcessor::ProcessAll(DWORD dwReason)
@@ -31,14 +30,10 @@ void DeviareProcessor::ProcessAll(DWORD dwReason)
 
 void DeviareProcessor::AttachHooks()
 {
-    for (auto fn : m_functionMap)
-    {
-    }
+    m_nktHook.Hook(m_hookInfos.data(), m_hookInfos.size());
 }
 
 void DeviareProcessor::DetachHooks()
 {
-    for (auto fn : m_functionMap)
-    {
-    }
+    m_nktHook.Unhook(m_hookInfos.data(), m_hookInfos.size());
 }

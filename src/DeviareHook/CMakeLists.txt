@@ -14,4 +14,4 @@ add_library(DeviareHook SHARED ${SRC} ${HEADERS})
 set_target_properties(DeviareHook PROPERTIES COMPILE_FLAGS "/Yupch.h")
 set_source_files_properties(pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h")
 
-target_link_libraries(DeviareHook PRIVATE plog::plog exceptxx)
+target_link_libraries(DeviareHook PRIVATE plog::plog exceptxx DeviareInProc NktHookLib)

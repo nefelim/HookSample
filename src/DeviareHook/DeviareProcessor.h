@@ -1,5 +1,6 @@
 #pragma once
-#include <map>
+#include <vector>
+#include <NktHookLib.h>
 
 class DeviareProcessor
 {
@@ -11,6 +12,7 @@ private:
     void AttachHooks();
     void DetachHooks();
 private:
-    using FunctionMapT = std::map<void*, void**>;
-    FunctionMapT m_functionMap;
+    using HookInfosT = std::vector<CNktHookLib::HOOK_INFO>;
+    HookInfosT m_hookInfos;
+    CNktHookLib m_nktHook;
 };
