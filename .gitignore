@@ -3,3 +3,5 @@ obj/
 bin/
 
 src/3rd-party/Deviare/gen/
+
+gen/
