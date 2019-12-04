@@ -5,10 +5,8 @@ class DetoursTransaction
 public:
     DetoursTransaction()
     {
-        LONG error = ::DetourTransactionBegin();
-        THROW_WIN32_IF(error, error);
-        error = ::DetourUpdateThread(GetCurrentThread());
-        THROW_WIN32_IF(error, error);
+        CHECK_WIN32(::DetourTransactionBegin());
+        CHECK_WIN32(::DetourUpdateThread(GetCurrentThread()));
     }
     ~DetoursTransaction()
     {

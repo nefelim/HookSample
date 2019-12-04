@@ -8,7 +8,7 @@ bool DeviareProcessor::NeedSkip()
 
 void DeviareProcessor::Override(void **origFn, void* trapFn)
 {
-    m_hookInfos.emplace_back(CNktHookLib::HOOK_INFO{ m_hookInfos.size(), origFn, trapFn, origFn });
+    m_hookInfos.emplace_back(CNktHookLib::HOOK_INFO{ m_hookInfos.size(), *origFn, trapFn, nullptr });
 }
 
 void DeviareProcessor::ProcessAll(DWORD dwReason)
@@ -30,10 +30,10 @@ void DeviareProcessor::ProcessAll(DWORD dwReason)
 
 void DeviareProcessor::AttachHooks()
 {
-    m_nktHook.Hook(m_hookInfos.data(), m_hookInfos.size());
+    CHECK_WIN32(m_nktHook.Hook(m_hookInfos.data(), m_hookInfos.size(), NKTHOOKLIB_DisallowReentrancy));
 }
 
 void DeviareProcessor::DetachHooks()
 {
-    m_nktHook.Unhook(m_hookInfos.data(), m_hookInfos.size());
+    CHECK_WIN32(m_nktHook.Unhook(m_hookInfos.data(), m_hookInfos.size()));
 }

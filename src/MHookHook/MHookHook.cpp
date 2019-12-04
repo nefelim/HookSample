@@ -17,11 +17,11 @@ extern "C"
         LPOVERLAPPED lpOverlapped)
     {
         HANDLE hCout = ::GetStdHandle(STD_OUTPUT_HANDLE);
-        std::string str = "Hello MHook Hook!";
+        std::string str = "Hello MHook Hook!\n";
         if (hFile == hCout)
         {
-            lpBuffer = &str[0];
-            nNumberOfBytesToWrite = static_cast<DWORD>(str.length()) + 1;
+            lpBuffer = str.c_str();
+            nNumberOfBytesToWrite = static_cast<DWORD>(str.length());
         }
         return Real_WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
     }
@@ -39,7 +39,7 @@ BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, PVOID /*lpReserved*/)
     }
     try
     {
-        processor.Override(&(PVOID&)Real_WriteFile, Mine_WriteFile);
+        processor.Override(&reinterpret_cast<PVOID&>(Real_WriteFile), Mine_WriteFile);
         processor.ProcessAll(dwReason);
     }
     catch (const std::exception& ex)

@@ -13,7 +13,7 @@ add_library(DetoursInject STATIC ${SRC} ${HEADERS})
 set_target_properties(DetoursInject PROPERTIES COMPILE_FLAGS "/Yupch.h")
 set_source_files_properties(pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h")
 
-target_link_libraries(DetoursInject PRIVATE detours_static)
+target_link_libraries(DetoursInject PRIVATE detours_static exceptxx)
 target_include_directories(DetoursInject 
     INTERFACE 
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>

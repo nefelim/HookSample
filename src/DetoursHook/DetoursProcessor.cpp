@@ -33,21 +33,17 @@ void DetoursProcessor::ProcessAll(DWORD dwReason)
 void DetoursProcessor::AttachHooks()
 {
     DetoursTransaction transaction;
-    LONG error = NO_ERROR;
     for (auto fn : m_functionMap)
     {
-        error = ::DetourAttach(fn.second, fn.first);
-        THROW_WIN32_IF(error, error);
+        CHECK_WIN32(::DetourAttach(fn.second, fn.first));
     }
 }
 
 void DetoursProcessor::DetachHooks()
 {
     DetoursTransaction transaction;
-    LONG error = NO_ERROR;
     for (auto fn : m_functionMap)
     {
-        error = ::DetourDetach(fn.second, fn.first);
-        THROW_WIN32_IF(error, error);
+        CHECK_WIN32(::DetourDetach(fn.second, fn.first));
     }
 }
