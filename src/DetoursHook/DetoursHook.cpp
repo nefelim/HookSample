@@ -31,16 +31,29 @@ __declspec(dllexport)
 BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, PVOID /*lpReserved*/)
 {
     plog::init(plog::verbose, "c:\\DetoursHook.log");
-    DetoursProcessor processor;
-    if (processor.NeedSkip())
+
+    static DetoursProcessor g_processor;
+    if (g_processor.NeedSkip())
     {
         LOGV << "Skip process DllMain";
         return TRUE;
     }
     try
     {
-        processor.Override(&reinterpret_cast<PVOID&>(Real_WriteFile), Mine_WriteFile);
-        processor.ProcessAll(dwReason);
+        switch (dwReason)
+        {
+            case DLL_PROCESS_ATTACH:
+            {
+                g_processor.Override(&reinterpret_cast<PVOID&>(Real_WriteFile), Mine_WriteFile);
+                g_processor.AttachHooks();
+            }
+            break;
+            case DLL_PROCESS_DETACH:
+            {
+                g_processor.DetachHooks();
+            }
+            break;
+        }
     }
     catch (const std::exception& ex)
     {

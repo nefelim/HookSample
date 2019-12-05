@@ -11,23 +11,6 @@ void MHookProcessor::Override(void** origFn, void* trapFn)
     m_functionMap.emplace_back(HOOK_INFO{ origFn, trapFn });
 }
 
-void MHookProcessor::ProcessAll(DWORD dwReason)
-{
-    switch (dwReason)
-    {
-        case DLL_PROCESS_ATTACH: 
-        {
-            AttachHooks();
-        }
-        break;
-        case DLL_PROCESS_DETACH:
-        {
-            DetachHooks();
-        }
-        break;
-    }
-}
-
 void MHookProcessor::AttachHooks()
 {
     auto size = static_cast<int>(m_functionMap.size());
