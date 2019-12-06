@@ -28,37 +28,18 @@ extern "C"
 }
 
 __declspec(dllexport)
+IHookProcessor& GetInstance()
+{
+    static DetoursProcessor processor;
+    return processor;
+}
+
+__declspec(dllexport)
 BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, PVOID /*lpReserved*/)
 {
     plog::init(plog::verbose, "c:\\DetoursHook.log");
 
-    static DetoursProcessor g_processor;
-    if (g_processor.NeedSkip())
-    {
-        LOGV << "Skip process DllMain";
-        return TRUE;
-    }
-    try
-    {
-        switch (dwReason)
-        {
-            case DLL_PROCESS_ATTACH:
-            {
-                g_processor.Override(&reinterpret_cast<PVOID&>(Real_WriteFile), Mine_WriteFile);
-                g_processor.AttachHooks();
-            }
-            break;
-            case DLL_PROCESS_DETACH:
-            {
-                g_processor.DetachHooks();
-            }
-            break;
-        }
-    }
-    catch (const std::exception& ex)
-    {
-        LOGE << ex.what();
-        return FALSE;
-    }
-    return TRUE;
+    auto& processor = GetInstance();
+    auto hookMap = HookMapT{ { &reinterpret_cast<PVOID&>(Real_WriteFile), Mine_WriteFile } };
+    return DllProcessor(processor, hookMap, dwReason);
 }

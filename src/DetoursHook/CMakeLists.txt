@@ -14,4 +14,4 @@ add_library(DetoursHook SHARED ${SRC} ${HEADERS})
 set_target_properties(DetoursHook PROPERTIES COMPILE_FLAGS "/Yupch.h")
 set_source_files_properties(pch.cpp PROPERTIES COMPILE_FLAGS "/Ycpch.h")
 
-target_link_libraries(DetoursHook PRIVATE detours_static plog::plog exceptxx)
+target_link_libraries(DetoursHook PRIVATE detours_static plog::plog exceptxx Common)

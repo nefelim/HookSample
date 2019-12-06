@@ -1,14 +1,15 @@
 #pragma once
 #include <vector>
 #include <NktHookLib.h>
+#include "HookProcessor.h"
 
-class DeviareProcessor
+class DeviareProcessor : public IHookProcessor
 {
 public:
-    static bool NeedSkip();
-    void Override(void **origFn, void* trapFn);
-    void AttachHooks();
-    void DetachHooks();
+    bool NeedSkip() const override;
+    void Override(void **origFn, void* trapFn) override;
+    void AttachHooks() override;
+    void DetachHooks() override;
 private:
     using HookInfosT = std::vector<CNktHookLib::HOOK_INFO>;
     HookInfosT m_hookInfos;

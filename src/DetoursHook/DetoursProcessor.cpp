@@ -2,7 +2,7 @@
 #include "DetoursProcessor.h"
 #include "DetoursTransaction.h"
 
-bool DetoursProcessor::NeedSkip()
+bool DetoursProcessor::NeedSkip() const
 {
     return ::DetourIsHelperProcess();
 }

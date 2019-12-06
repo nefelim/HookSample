@@ -1,12 +1,13 @@
 #pragma once
+#include "HookProcessor.h"
 
-class DetoursProcessor
+class DetoursProcessor : public IHookProcessor
 {
 public:
-    static bool NeedSkip();
-    void Override(void **origFn, void* trapFn);
-    void AttachHooks();
-    void DetachHooks();
+    bool NeedSkip() const override;
+    void Override(void **origFn, void* trapFn) override;
+    void AttachHooks() override;
+    void DetachHooks() override;
 private:
     using FunctionMapT = std::map<void*, void**>;
     FunctionMapT m_functionMap;

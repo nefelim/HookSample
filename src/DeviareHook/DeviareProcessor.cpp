@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "DeviareProcessor.h"
 
-bool DeviareProcessor::NeedSkip()
+bool DeviareProcessor::NeedSkip() const
 {
     return false;
 }

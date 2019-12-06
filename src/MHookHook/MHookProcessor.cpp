@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MHookProcessor.h"
 
-bool MHookProcessor::NeedSkip()
+bool MHookProcessor::NeedSkip() const
 {
     return false;
 }
@@ -25,5 +25,4 @@ void MHookProcessor::DetachHooks()
     int size = static_cast<int>(functions.size());
 
     THROW_WIN32_IF(::Mhook_UnhookEx(functions.data(), size) != size, ERROR_INTERNAL_ERROR);
-
 }
