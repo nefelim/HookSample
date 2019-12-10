@@ -14,7 +14,7 @@ void DetoursProcessor::Override(void **origFn, void* trapFn)
 
 void DetoursProcessor::AttachHooks()
 {
-    THROW_LAST_WIN32_IF(!::DetourRestoreAfterWith());
+    ::DetourRestoreAfterWith();//Not checked
     DetoursTransaction transaction;
     for (auto fn : m_functionMap)
     {
@@ -29,4 +29,5 @@ void DetoursProcessor::DetachHooks()
     {
         CHECK_WIN32(::DetourDetach(fn.second, fn.first));
     }
+    m_functionMap.clear();
 }

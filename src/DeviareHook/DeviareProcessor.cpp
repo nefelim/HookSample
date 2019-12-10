@@ -18,5 +18,10 @@ void DeviareProcessor::AttachHooks()
 
 void DeviareProcessor::DetachHooks()
 {
+    if (m_hookInfos.empty())
+    {
+        return;
+    }
     CHECK_WIN32(m_nktHook.Unhook(m_hookInfos.data(), m_hookInfos.size()));
+    m_hookInfos.clear();
 }

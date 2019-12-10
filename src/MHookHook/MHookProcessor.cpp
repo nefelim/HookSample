@@ -25,4 +25,5 @@ void MHookProcessor::DetachHooks()
     int size = static_cast<int>(functions.size());
 
     THROW_WIN32_IF(::Mhook_UnhookEx(functions.data(), size) != size, ERROR_INTERNAL_ERROR);
+    m_functionMap.clear();
 }

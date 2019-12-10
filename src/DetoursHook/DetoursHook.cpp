@@ -25,13 +25,13 @@ extern "C"
         }
         return Real_WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
     }
-}
 
-__declspec(dllexport)
-IHookProcessor& GetInstance()
-{
-    static DetoursProcessor processor;
-    return processor;
+    __declspec(dllexport)
+    IHookProcessor& GetInstance()
+    {
+        static DetoursProcessor processor;
+        return processor;
+    }
 }
 
 __declspec(dllexport)

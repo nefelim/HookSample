@@ -1,16 +1,19 @@
 #pragma once
 #include <memory>
+#include <vector>
+#include <plog/Log.h>
 
 class IHookProcessor
 {
 public:
+    virtual ~IHookProcessor() {}
     virtual bool NeedSkip() const = 0;
     virtual void Override(void **origFn, void* trapFn) = 0;
     virtual void AttachHooks() = 0;
     virtual void DetachHooks() = 0;
 };
 
-using IHookProcessorPtr = std::unique_ptr<IHookProcessor>;
+using GetIntanceFn = IHookProcessor & (*)();
 using HookMapT = std::vector<std::pair<void**, void*> >; //orig -> mine
 
 inline bool DllProcessor(IHookProcessor& processor, HookMapT& functions, DWORD dwReason)

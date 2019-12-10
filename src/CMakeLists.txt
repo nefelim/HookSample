@@ -46,6 +46,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_INSTALL_PREFIX})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_INSTALL_PREFIX})
 
 add_subdirectory(3rd-party)
+add_subdirectory(Benchmark)
 add_subdirectory(DetoursHook)
 add_subdirectory(DetoursInject)
 add_subdirectory(DeviareHook)
