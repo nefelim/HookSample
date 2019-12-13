@@ -48,7 +48,7 @@ HookEngineLoaders LoadAllEngines()
 auto g_hookEngineLoaders = LoadAllEngines();
 auto g_hookMap = HookMapT{ { &reinterpret_cast<PVOID&>(Real_ReadFile), Mine_ReadFile } };
 
-void TestFunc(const char* engineName)
+double TestFunc()
 {
     auto startTime = std::chrono::high_resolution_clock::now();
     int count = 10000000;
@@ -56,30 +56,31 @@ void TestFunc(const char* engineName)
     {
         ::ReadFile(NULL, NULL, 0, NULL, NULL);
     }
-    auto timePassed = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - startTime);
-    if (engineName)
-    {
-        std::cout << timePassed.count() / count << ";";
-    }
+    auto timePassed = std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(std::chrono::high_resolution_clock::now() - startTime);
+    return timePassed.count() / count;
 }
 
 void TestCalls()
 {
-    std::cout << "TestCalls" << std::endl;
-    TestFunc(NULL);
-    TestFunc("NONE");
-    for (const auto& hookEngineLoader : g_hookEngineLoaders) try
+    TestFunc();// ignore first result
+    auto withoutHook = TestFunc();
+    for (int i = 0; i < 100; ++i)
     {
-        auto& engine = hookEngineLoader.GetEngine();
-        DllProcessor(engine, g_hookMap, DLL_PROCESS_ATTACH);
-        TestFunc(engine.GetName());
-        DllProcessor(engine, g_hookMap, DLL_PROCESS_DETACH);
+        std::cout << i;
+        for (const auto& hookEngineLoader : g_hookEngineLoaders) try
+        {
+            auto& engine = hookEngineLoader.GetEngine();
+            DllProcessor(engine, g_hookMap, DLL_PROCESS_ATTACH);
+            auto withHook = TestFunc();
+            DllProcessor(engine, g_hookMap, DLL_PROCESS_DETACH);
+            std::cout << ";" << withHook - withoutHook;
+        }
+        catch (const std::exception& ex)
+        {
+            std::cerr << ex.what() << std::endl;
+        }
+        std::cout << std::endl;
     }
-    catch (const std::exception& ex)
-    {
-        std::cerr << ex.what() << std::endl;
-    }
-    std::cout << std::endl;
 }
 
 void TestInstallHook()
@@ -94,8 +95,8 @@ void TestInstallHook()
             DllProcessor(engine, g_hookMap, DLL_PROCESS_ATTACH);
             DllProcessor(engine, g_hookMap, DLL_PROCESS_DETACH);
         }
-        auto timePassed = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - startTime);
-        std::cout << timePassed.count() / count << ";";
+        auto timePassed = std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(std::chrono::high_resolution_clock::now() - startTime);
+        std::cout << ";" << timePassed.count() / count;
     }
     catch (const std::exception& ex)
     {
@@ -106,14 +107,13 @@ void TestInstallHook()
 
 void TestInstallHooksWithThreads()
 {
-    std::cout << "TestInstallHooksWithThreads" << std::endl;
     std::vector<std::thread> threadsToTest;
 
     const int kThreadsCount = 10000;
     const int kThreadsCountStep = 100;
     bool testFinished = false;
 
-    for (int k = kThreadsCountStep; k <= kThreadsCount; k += kThreadsCountStep)
+    for (int k = 0; k <= kThreadsCount; k += kThreadsCountStep)
     {
         for (int i = 0; i < kThreadsCountStep; ++i)
         {
@@ -125,7 +125,7 @@ void TestInstallHooksWithThreads()
                 }
             }));
         }
-        std::cout << k << ";";
+        std::cout << k;
         TestInstallHook();
     }
 
@@ -135,13 +135,25 @@ void TestInstallHooksWithThreads()
     {
         threadsToTest[i].join();
     }
+    std::cout << std::endl;
+}
 
-    std::cout << "End" << std::endl;
+void PrintHeader(const char* testName)
+{
+    std::cout << testName;
+    for (const auto& hookEngineLoader : g_hookEngineLoaders)
+    {
+        auto& engine = hookEngineLoader.GetEngine();
+        std::cout << ";" << engine.GetName();
+    }
+    std::cout << std::endl;
 }
 
 int main()
 {
+    PrintHeader("TestCalls");
     TestCalls();
+    PrintHeader("TestInstallHooksWithThreads");
     TestInstallHooksWithThreads();
     return 0;
 }
