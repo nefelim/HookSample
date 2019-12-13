@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "DeviareProcessor.h"
 
+const char* DeviareProcessor::GetName() const
+{
+    return "Deviare";
+}
+
 bool DeviareProcessor::NeedSkip() const
 {
     return false;

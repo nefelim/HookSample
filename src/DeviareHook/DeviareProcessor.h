@@ -6,6 +6,7 @@
 class DeviareProcessor : public IHookProcessor
 {
 public:
+    const char* GetName() const override;
     bool NeedSkip() const override;
     void Override(void **origFn, void* trapFn) override;
     void AttachHooks() override;

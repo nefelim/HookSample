@@ -7,6 +7,7 @@ class IHookProcessor
 {
 public:
     virtual ~IHookProcessor() {}
+    virtual const char* GetName() const = 0;
     virtual bool NeedSkip() const = 0;
     virtual void Override(void **origFn, void* trapFn) = 0;
     virtual void AttachHooks() = 0;

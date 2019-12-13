@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "MHookProcessor.h"
 
+const char* MHookProcessor::GetName() const
+{
+    return "MHook";
+}
+
 bool MHookProcessor::NeedSkip() const
 {
     return false;

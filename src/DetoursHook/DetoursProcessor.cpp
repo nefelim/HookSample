@@ -2,6 +2,11 @@
 #include "DetoursProcessor.h"
 #include "DetoursTransaction.h"
 
+const char* DetoursProcessor::GetName() const
+{
+    return "Detours";
+}
+
 bool DetoursProcessor::NeedSkip() const
 {
     return ::DetourIsHelperProcess();
