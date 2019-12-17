@@ -27,6 +27,8 @@ extern "C"
 #pragma optimize( "", on )
 }
 
+const char g_separator[] = ",";
+
 using HookEngineLoaders = std::vector<HookEngineLoader>;
 HookEngineLoaders LoadAllEngines()
 { 
@@ -73,7 +75,7 @@ void TestCalls()
             DllProcessor(engine, g_hookMap, DLL_PROCESS_ATTACH);
             auto withHook = TestFunc();
             DllProcessor(engine, g_hookMap, DLL_PROCESS_DETACH);
-            std::cout << ";" << withHook - withoutHook;
+            std::cout << g_separator << withHook - withoutHook;
         }
         catch (const std::exception& ex)
         {
@@ -96,7 +98,7 @@ void TestInstallHook()
             DllProcessor(engine, g_hookMap, DLL_PROCESS_DETACH);
         }
         auto timePassed = std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(std::chrono::high_resolution_clock::now() - startTime);
-        std::cout << ";" << timePassed.count() / count;
+        std::cout << g_separator << timePassed.count() / count;
     }
     catch (const std::exception& ex)
     {
@@ -131,10 +133,7 @@ void TestInstallHooksWithThreads()
 
     testFinished = true;
 
-    for (int i = 0; i < kThreadsCount; ++i)
-    {
-        threadsToTest[i].join();
-    }
+    std::for_each(threadsToTest.begin(), threadsToTest.end(), [](auto& thread) {thread.join(); });
     std::cout << std::endl;
 }
 
@@ -144,7 +143,7 @@ void PrintHeader(const char* testName)
     for (const auto& hookEngineLoader : g_hookEngineLoaders)
     {
         auto& engine = hookEngineLoader.GetEngine();
-        std::cout << ";" << engine.GetName();
+        std::cout << g_separator << engine.GetName();
     }
     std::cout << std::endl;
 }
